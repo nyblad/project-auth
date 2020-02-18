@@ -58,7 +58,6 @@ app.get('/', (req, res) => {
 })
 
 // ROUTE TO REGISTRY A USER
-// Should await be used somewhere..?
 app.post('/users', async (req, res) => {
   try {
     const { name, email, password } = req.body
