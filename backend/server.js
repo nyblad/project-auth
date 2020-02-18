@@ -14,14 +14,17 @@ mongoose.Promise = Promise
 const User = mongoose.model('User', {
   name: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
   },
   email: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
   },
   password: {
     type: String,
+    required: true,
     required: true
   },
   accessToken: {
@@ -59,9 +62,9 @@ app.get('/', (req, res) => {
 app.post('/users', async (req, res) => {
   try {
     const { name, email, password } = req.body
-    const user = new User({ name, email, password: bcrypt.hashSync(password) })
-    user.save()
-    res.status(201).json({ id: user._id, accessToken: user.accessToken })
+    const newUser = await new User({ name, email, password: bcrypt.hashSync(password) })
+    newUser.save()
+    res.status(201).json(newUser)
   } catch (err) {
     res.status(400).json({ messsage: 'Could not create user', error: err.errors })
   }
