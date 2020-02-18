@@ -56,7 +56,7 @@ export const LoginForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     clearInputs()
-    window.alert(`Registry done for ${formValues.name}`)
+    window.alert(`Now ypu should be logged in and redirected to secret page`)
   }
 
   return (
@@ -67,7 +67,7 @@ export const LoginForm = () => {
         <Input
           onChange={event => setFormValues({ ...formValues, email: event.target.value })}
           value={formValues.email}
-          type="text"
+          type="email"
           placeholder="mail@mail.com"
           minLength="2"
           maxLength="50"

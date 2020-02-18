@@ -10,7 +10,12 @@ const Wrapper = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #829191;
+  background: #4C5B61;
+`
+const Text = styled.p`
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
 `
 
 export const App = () => {
@@ -19,11 +24,13 @@ export const App = () => {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact>
+            <Text>Register a user</Text>
             <RegistryForm />
+            <Text>Log in</Text>
             <LoginForm />
           </Route>
 
-          <Route path="/secret">
+          <Route path="/secrets">
             <SecretPage />
           </Route>
 
