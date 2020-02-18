@@ -76,8 +76,6 @@ app.post('/users', async (req, res) => {
   }
 });
 
-// PROTECTING OUR ROUTE /SECRETS
-// app.get('/secrets', authenticateUser)
 // ROUTE FOR SECRETS
 app.get('/secrets', authenticateUser, (req, res) => {
   res.status(200).json({
