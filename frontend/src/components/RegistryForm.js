@@ -59,7 +59,7 @@ export const RegistryForm = () => {
     event.preventDefault()
     // POST formValues to API
     fetch("http://localhost:8080/users", {
-      method: "POST", body: JSON.stringify({ formValues }), headers: { "Content-Type": "application/json" }
+      method: "POST", body: JSON.stringify(formValues), headers: { "Content-Type": "application/json" }
     }).then(() => {
       // You'll need to store the access token you get back in the browser using local storage
       // and then use that token when making other requests to your API
