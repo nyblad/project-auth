@@ -56,7 +56,7 @@ export const LoginForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     clearInputs()
-    window.alert(`Now ypu should be logged in and redirected to secret page`)
+    window.alert(`Now user should be logged in and redirected to secret page.`)
   }
 
   return (

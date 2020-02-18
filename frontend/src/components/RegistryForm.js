@@ -42,23 +42,31 @@ const Input = styled.input`
 export const RegistryForm = () => {
 
   const [formValues, setFormValues] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
 
   const clearInputs = () => {
     setFormValues({
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
     })
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    clearInputs()
-    window.alert(`Registry done for ${formValues.name}`)
+    // POST formValues to API
+    fetch("http://localhost:8080/users", {
+      method: "POST", body: JSON.stringify({ formValues }), headers: { "Content-Type": "application/json" }
+    }).then(() => {
+      // You'll need to store the access token you get back in the browser using local storage
+      // and then use that token when making other requests to your API
+      console.table(formValues)
+      window.alert(`Registry done for ${formValues.name}.`)
+      clearInputs()
+    })
   }
 
   return (
