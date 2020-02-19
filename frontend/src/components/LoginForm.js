@@ -41,22 +41,23 @@ const Input = styled.input`
 `;
 
 export const LoginForm = () => {
+  const history = useHistory();
   const [formValues, setFormValues] = useState({
     email: '',
     password: ''
   });
-  const history = useHistory();
 
-  // const clearInputs = () => {
-  //   setFormValues({
-  //     email: '',
-  //     password: ''
-  //   });
-  // };
+  const clearInputs = () => {
+    setFormValues({
+      email: '',
+      password: ''
+    });
+  };
 
   const handleSubmit = event => {
+
     event.preventDefault();
-    console.table(formValues);
+
     fetch('http://localhost:8080/sessions', {
       method: 'POST',
       body: JSON.stringify(formValues),
@@ -64,18 +65,13 @@ export const LoginForm = () => {
     })
       .then(response => response.json())
       .then(data => {
-        // You'll need to store the access token you get back in the browser using local storage
-        // and then use that token when making other requests to your API
-        console.log(data);
+        console.log('Data:', data);
         localStorage.setItem('accessToken', data.accessToken);
-        setFormValues({
-          name: '',
-          email: '',
-          password: ''
-        });
+        clearInputs()
       });
-    console.log(`User logged in and redirected to secret page.`);
+
     history.push('/secrets');
+
   };
 
   return (

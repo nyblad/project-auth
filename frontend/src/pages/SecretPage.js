@@ -51,6 +51,7 @@ export const SecretPage = () => {
   const history = useHistory();
   const [shows, setShows] = useState([]);
   const accessToken = localStorage.getItem('accessToken');
+  console.log('accToken:', accessToken)
 
   const handleLogout = () => {
     window.confirm('Are your sure you want to log out?');
@@ -60,7 +61,6 @@ export const SecretPage = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-
     fetch('http://localhost:8080/secrets', {
       method: 'GET',
       headers: {
