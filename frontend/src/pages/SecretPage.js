@@ -82,17 +82,16 @@ export const SecretPage = () => {
   return (
     <Wrapper>
       <Text>- Welcome to the secret page -</Text>
-      {accessToken && <Button onClick={handleLogout} title="Log out" />}
-      {accessToken &&
-        <ItemsWrapper>
-          {shows.map(show => (
-            <Item key={show.show_id}>
-              <Text>{show.title}</Text>
-              <ItemText>Released: {show.release_year}</ItemText>
-              <ItemText>Type: {show.type}</ItemText>
-            </Item>
-          ))}
-        </ItemsWrapper>}
+      <Button onClick={handleLogout} title="Log out" />
+      <ItemsWrapper>
+        {shows.map(show => (
+          <Item key={show.show_id}>
+            <Text>{show.title}</Text>
+            <ItemText>Released: {show.release_year}</ItemText>
+            <ItemText>Type: {show.type}</ItemText>
+          </Item>
+        ))}
+      </ItemsWrapper>
     </Wrapper>
   );
 };
