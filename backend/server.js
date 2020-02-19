@@ -36,14 +36,20 @@ const User = mongoose.model('User', {
 
 // MIDDLEWARE TO CHECK ACCESSTOKENS (IF THE USER MATCH ANY ACCESSTOKEN IN DB)
 const authenticateUser = async (req, res, next) => {
-  const user = await User.findOne({ accessToken: req.header('Authorization') });
-  if (user) {
-    req.user = user;
-    next();
-  } else {
+  try {
+    const user = await User.findOne({ accessToken: req.header('Authorization') });
+    if (user) {
+      req.user = user;
+      next();
+    } else {
+      res
+        .status(401)
+        .json({ loggedOut: true });
+    }
+  } catch (err) {
     res
-      .status(401)
-      .json({ loggedOut: true });
+      .status(403)
+      .json({ message: 'accesToken missing or wrong', errors: err.errors })
   }
 };
 
@@ -74,7 +80,7 @@ app.post('/users', async (req, res) => {
   } catch (err) {
     res
       .status(400)
-      .json({ messsage: 'Could not create user', error: err.errors });
+      .json({ messsage: 'Could not create user', errors: err.errors });
   }
 });
 
@@ -88,19 +94,27 @@ app.get('/secrets', authenticateUser, (req, res) => {
   } catch (err) {
     res
       .status(403)
-      .json({ message: 'Not authorized', error: err.errors })
+      .json({ message: 'Not authorized', errors: err.errors })
   }
 });
 
 // ROUTE FOR LOGIN - FINDS A USER INSTEAD OF CREATE
 app.post('/sessions', async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-  if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    res.json({ userId: user._id, accessToken: user.accessToken });
-  } else {
-    res.json({ notFound: true });
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      res.json({ name: user.name, userId: user._id, accessToken: user.accessToken });
+    } else {
+      res.json({ notFound: true });
+    }
+  } catch (err) {
+    res
+      .status(403)
+      .json({ message: 'Something went wrong', errors: err.errors })
   }
 });
+
 
 // START THE SERVER
 app.listen(port, () => {
