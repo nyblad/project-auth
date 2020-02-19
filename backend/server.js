@@ -41,7 +41,9 @@ const authenticateUser = async (req, res, next) => {
     req.user = user;
     next();
   } else {
-    res.status(401).json({ loggedOut: true });
+    res
+      .status(401)
+      .json({ loggedOut: true });
   }
 };
 
@@ -78,10 +80,16 @@ app.post('/users', async (req, res) => {
 
 // ROUTE FOR SECRETS
 app.get('/secrets', authenticateUser, (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    data: netflixData
-  });
+  try {
+    res.status(200).json({
+      status: 'success',
+      data: netflixData
+    });
+  } catch (err) {
+    res
+      .status(403)
+      .json({ message: 'Not authorized', error: err.errors })
+  }
 });
 
 // ROUTE FOR LOGIN - FINDS A USER INSTEAD OF CREATE
