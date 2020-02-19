@@ -18,7 +18,7 @@ const ItemsWrapper = styled.section`
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-`
+`;
 const Item = styled.div`
   width: 23%;
   border: 2px solid #fff;
@@ -26,7 +26,7 @@ const Item = styled.div`
   margin: 5px;
   padding: 20px;
   color: #fff;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   @media (max-width: 800px) {
     width: 30%;
   }
@@ -36,7 +36,7 @@ const Item = styled.div`
   @media (max-width: 450px) {
     width: 90%;
   }
-`
+`;
 const Text = styled.p`
   font-size: 20px;
   font-weight: bold;
@@ -51,10 +51,8 @@ export const SecretPage = () => {
   const history = useHistory();
   const [shows, setShows] = useState([]);
   const accessToken = localStorage.getItem('accessToken');
-  console.log('accToken:', accessToken)
 
   const handleLogout = () => {
-    window.confirm('Are your sure you want to log out?');
     localStorage.removeItem('accessToken');
     history.push('/');
   };
