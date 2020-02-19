@@ -40,8 +40,15 @@ const Input = styled.input`
   font-family: 'Open Sans', sans-serif;
 `;
 
+const LoginFailed = styled.p`
+  color: red;
+  font-weight: bold;
+  text-align: center;
+`;
+
 export const LoginForm = () => {
   const history = useHistory();
+  const [loginFailed, setLoginFailed] = useState(false);
   const [formValues, setFormValues] = useState({
     email: '',
     password: ''
@@ -55,27 +62,42 @@ export const LoginForm = () => {
   };
 
   const handleSubmit = event => {
-
     event.preventDefault();
+    localStorage.removeItem('accessToken');
 
     fetch('http://localhost:8080/sessions', {
       method: 'POST',
       body: JSON.stringify(formValues),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Data:', data);
-        localStorage.setItem('accessToken', data.accessToken);
-        clearInputs()
+      .then(response => {
+        if (response.status !== 200) {
+          console.log(
+            'Looks like there was a problem. Status Code: ' + response.status
+          );
+          return;
+        }
+
+        response.json().then(data => {
+          if (data.notFound !== true) {
+            localStorage.setItem('accessToken', data.accessToken);
+            clearInputs();
+            setLoginFailed(false);
+            history.push('/secrets');
+          } else {
+            setLoginFailed(true);
+            clearInputs();
+          }
+        });
+      })
+      .catch(err => {
+        console.log('Fetch Error :shit:', err);
       });
-
-    history.push('/secrets');
-
   };
 
   return (
     <Form onSubmit={handleSubmit}>
+      {loginFailed && <LoginFailed>Login failed</LoginFailed>}
       <Label>
         <LabelText>E-mail</LabelText>
         <Input
