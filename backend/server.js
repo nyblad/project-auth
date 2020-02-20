@@ -16,12 +16,16 @@ const User = mongoose.model('User', {
   name: {
     type: String,
     unique: true,
-    required: true
+    required: true,
+    minlength: 2,
+    maxlength: 100
   },
   email: {
     type: String,
     unique: true,
-    required: true
+    required: true,
+    minlength: 5,
+    maxlength: 100
   },
   password: {
     type: String,
@@ -110,8 +114,8 @@ app.post('/sessions', async (req, res) => {
     }
   } catch (err) {
     res
-      .status(403)
-      .json({ message: 'Something went wrong', errors: err.errors })
+      .status(400)
+      .json({ message: 'Could not find user', errors: err.errors })
   }
 });
 
