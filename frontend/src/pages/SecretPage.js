@@ -95,7 +95,9 @@ export const SecretPage = ({ username }) => {
   return (
     <Wrapper>
       {username && <Text>Welcome to the secret page, {username}!</Text>}
-      <Button onClick={handleLogout} title="Log out" />
+      {!error && accessToken && (
+        <Button onClick={handleLogout} title="Log out" />
+      )}
       {!error ? (
         <ItemsWrapper>
           {shows.map(show => (
