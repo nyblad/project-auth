@@ -47,8 +47,14 @@ const ItemText = styled.p`
   color: #fff;
 `;
 
+const ErrorMessage = styled.p`
+  font-weight: bold;
+  color: red;
+`;
+
 export const SecretPage = ({ username }) => {
   const history = useHistory();
+  const [error, setError] = useState();
   const [shows, setShows] = useState([]);
   const accessToken = localStorage.getItem('accessToken');
 
@@ -66,11 +72,20 @@ export const SecretPage = ({ username }) => {
         Authorization: `${accessToken}`
       },
       signal: abortController.signal
-    })
-      .then(response => response.json())
-      .then(data => {
+    }).then(response => {
+      if (response.status !== 200) {
+        console.log(response.status);
+        // console.log(
+        //   'Looks like there was a problem. Status Code: ' + response.status
+        // );
+        setError(`${response.status}: You must be logged in to watch content`);
+        return;
+      }
+
+      response.json().then(data => {
         setShows(data.data);
       });
+    });
 
     return () => {
       abortController.abort();
@@ -81,15 +96,19 @@ export const SecretPage = ({ username }) => {
     <Wrapper>
       {username && <Text>Welcome to the secret page, {username}!</Text>}
       <Button onClick={handleLogout} title="Log out" />
-      <ItemsWrapper>
-        {shows.map(show => (
-          <Item key={show.show_id}>
-            <Text>{show.title}</Text>
-            <ItemText>Released: {show.release_year}</ItemText>
-            <ItemText>Type: {show.type}</ItemText>
-          </Item>
-        ))}
-      </ItemsWrapper>
+      {!error ? (
+        <ItemsWrapper>
+          {shows.map(show => (
+            <Item key={show.show_id}>
+              <Text>{show.title}</Text>
+              <ItemText>Released: {show.release_year}</ItemText>
+              <ItemText>Type: {show.type}</ItemText>
+            </Item>
+          ))}
+        </ItemsWrapper>
+      ) : (
+        <ErrorMessage>{error}</ErrorMessage>
+      )}
     </Wrapper>
   );
 };
