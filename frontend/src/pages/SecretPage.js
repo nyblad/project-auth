@@ -47,7 +47,7 @@ const ItemText = styled.p`
   color: #fff;
 `;
 
-export const SecretPage = () => {
+export const SecretPage = ({ username }) => {
   const history = useHistory();
   const [shows, setShows] = useState([]);
   const accessToken = localStorage.getItem('accessToken');
@@ -79,7 +79,7 @@ export const SecretPage = () => {
 
   return (
     <Wrapper>
-      <Text>- Welcome to the secret page -</Text>
+      {username && <Text>Welcome to the secret page, {username}!</Text>}
       <Button onClick={handleLogout} title="Log out" />
       <ItemsWrapper>
         {shows.map(show => (

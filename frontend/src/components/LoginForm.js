@@ -46,7 +46,7 @@ const LoginFailed = styled.p`
   text-align: center;
 `;
 
-export const LoginForm = () => {
+export const LoginForm = ({ setUsername }) => {
   const history = useHistory();
   const [loginFailed, setLoginFailed] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -81,6 +81,7 @@ export const LoginForm = () => {
         response.json().then(data => {
           if (data.notFound !== true) {
             localStorage.setItem('accessToken', data.accessToken);
+            setUsername(data.name);
             clearInputs();
             setLoginFailed(false);
             history.push('/secrets');
