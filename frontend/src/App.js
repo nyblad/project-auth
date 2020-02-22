@@ -20,7 +20,6 @@ const Text = styled.p`
 
 export const App = () => {
   const [username, setUsername] = useState();
-
   return (
     <Wrapper>
       <BrowserRouter>

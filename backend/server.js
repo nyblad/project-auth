@@ -41,9 +41,7 @@ const authenticateUser = async (req, res, next) => {
     req.user = user;
     next();
   } else {
-    res
-      .status(401)
-      .json({ loggedOut: true });
+    res.status(401).json({ loggedOut: true });
   }
 };
 
@@ -86,9 +84,7 @@ app.get('/secrets', authenticateUser, (req, res) => {
       data: netflixData
     });
   } catch (err) {
-    res
-      .status(403)
-      .json({ message: 'Not authorized', error: err.errors })
+    res.status(403).json({ message: 'Not authorized', error: err.errors });
   }
 });
 
@@ -96,9 +92,17 @@ app.get('/secrets', authenticateUser, (req, res) => {
 app.post('/sessions', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    res.json({ userId: user._id, accessToken: user.accessToken });
+    res.json({
+      name: user.name,
+      userId: user._id,
+      accessToken: user.accessToken
+    });
   } else {
-    res.json({ notFound: true });
+    res.status(401).json({
+      statusCode: 401,
+      notFound: true,
+      error: 'Login failed'
+    });
   }
 });
 
