@@ -65,7 +65,7 @@ export const LoginForm = ({ setUsername }) => {
     event.preventDefault();
     localStorage.removeItem('accessToken');
 
-    fetch('http://localhost:8080/sessions', {
+    fetch('https://project-auth-fresof.herokuapp.com/sessions', {
       method: 'POST',
       body: JSON.stringify(formValues),
       headers: { 'Content-Type': 'application/json' }

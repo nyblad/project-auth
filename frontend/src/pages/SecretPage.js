@@ -65,7 +65,7 @@ export const SecretPage = ({ username }) => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    fetch('http://localhost:8080/secrets', {
+    fetch('https://project-auth-fresof.herokuapp.com/secrets', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -109,8 +109,8 @@ export const SecretPage = ({ username }) => {
           ))}
         </ItemsWrapper>
       ) : (
-        <ErrorMessage>{error}</ErrorMessage>
-      )}
+          <ErrorMessage>{error}</ErrorMessage>
+        )}
     </Wrapper>
   );
 };

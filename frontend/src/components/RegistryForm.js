@@ -50,7 +50,7 @@ export const RegistryForm = () => {
     event.preventDefault();
     // POST formValues to API
 
-    fetch('http://localhost:8080/users', {
+    fetch('https://project-auth-fresof.herokuapp.com/users', {
       method: 'POST',
       body: JSON.stringify(formValues),
       headers: { 'Content-Type': 'application/json' }
